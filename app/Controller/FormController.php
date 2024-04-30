@@ -25,7 +25,7 @@ class FormController extends Controller
         $matcher->deductCredits();
 
         $this->render('results.twig', [
-            'matchedCompanies'  => $matchedCompanies,
+            'matchedCompanies'  => $matcher->results(),
         ]);
     }
 
