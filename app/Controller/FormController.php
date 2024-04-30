@@ -22,6 +22,8 @@ class FormController extends Controller
             $this->getMaxMatchedCompanies()
         );
 
+        $matcher->deductCredits();
+
         $this->render('results.twig', [
             'matchedCompanies'  => $matchedCompanies,
         ]);

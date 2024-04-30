@@ -55,9 +55,20 @@ class CompanyMatcher
         return $this->matches;
     }
 
-    public function deductCredits()
+    public function deductCredits(): void
     {
+        $companyIds = array_column($this->matches, 'id');
 
+        $query = $this->db->prepare(
+            sprintf(
+                'UPDATE `companies`
+                SET `credits` = `credits` - 1
+                WHERE `id` IN (%s)',
+                implode(',', array_fill(0, count($companyIds), '?'))
+            )
+        );
+
+        $query->execute($companyIds);
     }
 
     private function getPostcodePrefix(string $postcode): string
