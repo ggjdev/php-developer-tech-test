@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Service\CompanyMatcher;
 
-class FormController
+class FormController extends Controller
 {
     public function index()
     {
