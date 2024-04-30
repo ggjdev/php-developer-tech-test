@@ -15,6 +15,13 @@ class FormController extends Controller
     {
         $matcher = new CompanyMatcher($this->db());
 
+        $matcher->match(
+            $_POST['postcode'],
+            $_POST['bedrooms'],
+            $_POST['survey_type'],
+            $this->getMaxMatchedCompanies()
+        );
+
         $this->render('results.twig', [
             'matchedCompanies'  => $matchedCompanies,
         ]);
