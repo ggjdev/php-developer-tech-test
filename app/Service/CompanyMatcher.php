@@ -50,11 +50,6 @@ class CompanyMatcher
         $this->matches = $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function pick(int $count)
-    {
-
-    }
-
     public function results(): array
     {
         return $this->matches;
