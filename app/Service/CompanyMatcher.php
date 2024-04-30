@@ -28,7 +28,8 @@ class CompanyMatcher
                 `companies`.`description`,
                 `companies`.`email`,
                 `companies`.`phone`,
-                `companies`.`website`
+                `companies`.`website`,
+                RAND() as `random_order`
             FROM `company_matching_settings`
             INNER JOIN `companies`
             ON `company_matching_settings`.`company_id` = `companies`.`id`
@@ -37,6 +38,7 @@ class CompanyMatcher
             AND `company_matching_settings`.`type` = :survey_type
             AND `companies`.`credits` > 0
             AND `companies`.`active` = 1
+            ORDER BY `random_order`
             LIMIT :count'
         );
 
