@@ -31,4 +31,15 @@ class CompanyMatcher
     {
         
     }
+
+    private function getPostcodePrefix(string $postcode): string
+    {
+        preg_match(
+            '/^([A-Z]{1,2})/',
+            strtoupper($postcode),
+            $matches
+        );
+
+        return isset($matches[1]) ? $matches[1] : '';
+    }
 }
