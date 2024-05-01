@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Logger;
 use PDO;
 
 class CompanyMatcher
@@ -71,6 +72,8 @@ class CompanyMatcher
         );
 
         $query->execute($companyIds);
+
+        $this->logCompaniesWithZeroCredits($companyIds);
     }
 
     private function getPostcodePrefix(string $postcode): string
@@ -82,5 +85,29 @@ class CompanyMatcher
         );
 
         return isset($matches[1]) ? $matches[1] : '';
+    }
+
+    private function logCompaniesWithZeroCredits(array $companyIds): void
+    {
+        $query = $this->db->prepare(
+            sprintf(
+                'SELECT `id`, `name`
+                FROM `companies`
+                WHERE `credits` = 0
+                AND `id` IN (%s)',
+                implode(',', array_fill(0, count($companyIds), '?'))
+            )
+        );
+
+        $query->execute($companyIds);
+
+        $companies = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($companies as $company) {
+            Logger::warning(
+                "Company {$company['name']} has run out of credits.",
+                $company
+            );
+        }
     }
 }
