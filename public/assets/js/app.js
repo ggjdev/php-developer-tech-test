@@ -15,7 +15,7 @@ document.addEventListener('submit', function (e) {
 document.addEventListener('click', function (e) {
     const element = e.target;
 
-    if (element.tagName === 'A' && element.classList.contains('matches__match__more')) {
+    if (element.tagName === 'BUTTON' && element.classList.contains('matches__match__more')) {
         e.preventDefault();
 
         const parent = element.closest('.matches__match');
